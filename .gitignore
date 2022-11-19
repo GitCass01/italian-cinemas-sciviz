@@ -1,5 +1,5 @@
 __pycache__/
-.ipnyb_checkpoints/
+.ipynb_checkpoints
 Dati_Cinema_Italiani/annuari_cinetel/
 Dati_Cinema_Italiani/conf_cinetel/
 Dati_Cinema_Italiani/presentazioni_anica_cinetel/
@@ -8,7 +8,7 @@ Dati_Cinema_Italiani/tables/
 italian-maps-shapefiles-master/
 lib/
 test_pyvis.py
-Prove_vis.ipnyb
+Prove_vis.ipynb
 movies_net.html
-Movie-Network-Vis.ipnyb
-Progetto_sciViz_Cinema.ipnyb
+Movie-Network-Vis.ipynb
+Progetto_sciViz_Cinema.ipynb
