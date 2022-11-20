@@ -2,7 +2,7 @@ import pandas as pd
 import glob
 
 def combine_csv(root, csvName):
-    box_office = []
+    tmp = []
     for year in range(2005, 2022):
         try:
             df = pd.read_csv(path + str(year) + "/" + csvName, decimal=',', thousands='.', parse_dates=True, dayfirst=True)
@@ -11,8 +11,8 @@ def combine_csv(root, csvName):
             continue
         df['Year'] = year
         for i in range(0, len(df)):
-            box_office.append(df.iloc[i])
-    df = pd.DataFrame(box_office)
+            tmp.append(df.iloc[i])
+    df = pd.DataFrame(tmp)
     year_column = df.pop('Year')
     df.insert(0, 'Year', year_column)
     return df
