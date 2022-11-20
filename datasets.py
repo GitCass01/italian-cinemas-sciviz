@@ -27,8 +27,3 @@ film_ita = combine_csv(path, 'film_ita.csv')                                 # F
 costo_biglietti = pd.read_csv(path + 'costo_biglietti.csv', sep=',')         # FONTE: SIAE
 num_luoghi = pd.read_csv(path + 'num_luoghi.csv', sep=',')                   # FONTE: SIAE
 info_cinema = pd.read_csv(path + 'info_cinema.csv', sep=',')                 # FONTE: SIAE
-
-# elimino colonna index inserita dalla 'to_csv' sui file excel
-costo_biglietti = costo_biglietti.drop(costo_biglietti.columns[[0]], axis=1)
-num_luoghi = num_luoghi.drop(num_luoghi.columns[[0]], axis=1)
-info_cinema = info_cinema.drop(info_cinema.columns[[0]], axis=1)
