@@ -8,8 +8,12 @@ load_dotenv()
 
 tmdb.API_KEY = os.getenv('TMDB_API_KEY')
 
-def get_film_genres(ita=True):
-    if ita:
+def get_film_genres(ita=True, all=False):
+    if all:
+        bo = box_offices
+        path='Dati_Cinema_Italiani/tables/film_all_genres.json'
+        print('Inizio ricerca generi per tutti i film...')
+    elif ita:
         bo = box_offices[box_offices['Naz.'] == 'ITA']
         path='Dati_Cinema_Italiani/tables/film_ita_genres.json'
         print('Inizio ricerca generi per film italiani...')
@@ -32,7 +36,7 @@ def get_film_genres(ita=True):
         try:
             id = search.results[0]['id']
             movie = tmdb.Movies(id)
-            genres = movie.info(language='it')['genres']
+            genres = movie.info(language='it-IT')['genres']
             file[film] = genres
         except IndexError as e:
             print(film + ' non trovato, anno: ' + str(row['Year']))
@@ -42,3 +46,29 @@ def get_film_genres(ita=True):
     json_object = json.dumps(file)
     with open(path, "w") as outfile:
             outfile.write(json_object)
+
+def get_all_genres():
+    genres = tmdb.Genres()
+    lst = genres.movie_list(language='it-IT')['genres']
+    gens = {}
+    for g in lst:
+        gens[g['name']] = 0
+    return gens
+
+def occ_genres(ita=True, all=False):
+    genres = get_all_genres()
+    if all:
+        json_file = open('Dati_Cinema_Italiani/tables/film_all_genres.json')
+    elif ita:
+        json_file = open('Dati_Cinema_Italiani/tables/film_ita_genres.json')
+    else:
+        json_file = open('Dati_Cinema_Italiani/tables/film_other_genres.json')
+    file = json.load(json_file)
+
+    for i in file:
+        gs = file[i]
+        for j in gs:
+            if j['name'] not in genres:
+                genres[j['name']] = 0
+            genres[j['name']] += 1
+    return genres
