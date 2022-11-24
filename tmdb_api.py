@@ -35,6 +35,13 @@ def get_film_genres(ita=True, all=False):
         response = search.movie(query=film, language='it-IT')
         try:
             id = search.results[0]['id']
+            for i in search.results:
+                if film.lower() == i['title']:
+                    id = i['id']
+                    break
+                if film.lower() in i['title'].lower():
+                    id = i['id']
+                    break
             movie = tmdb.Movies(id)
             genres = movie.info(language='it-IT')['genres']
             file[film] = genres
