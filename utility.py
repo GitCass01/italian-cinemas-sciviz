@@ -26,7 +26,8 @@ def init(path="Dati_Cinema_Italiani/tables/"):
     combine_csv(path, 'film_ita.csv')                              # FONTE: ANICA
 
 path = "Dati_Cinema_Italiani/tables/"
-init(path)
+# this create all the csv needed by combining yearly data
+# init(path)
 
 box_offices = pd.read_csv(path + 'box_office.csv', sep=',', decimal=',', thousands='.', parse_dates=True, dayfirst=True)
 naz = pd.read_csv(path + 'nazioni.csv', sep=',', decimal=',', thousands='.', parse_dates=True, dayfirst=True)
