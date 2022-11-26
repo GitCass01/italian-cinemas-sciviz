@@ -28,6 +28,21 @@ costo_biglietti = pd.read_csv(path + 'costo_biglietti.csv', sep=',')         # F
 num_luoghi = pd.read_csv(path + 'num_luoghi.csv', sep=',')                   # FONTE: SIAE
 info_cinema = pd.read_csv(path + 'info_cinema.csv', sep=',')                 # FONTE: SIAE
 
+def get_tot_incassi():
+    lst = []
+    for year in naz['Year'].unique():
+        tmp = naz[naz['Year'] == year]
+        tmp_lst = []
+        incasso = 0
+        tmp_lst.append(year)
+        for index, row in tmp.iterrows():
+            incasso += row['Incasso']
+        tmp_lst.append(incasso)
+        lst.append(tmp_lst)
+
+    df = pd.DataFrame(lst, columns=['Year', 'Incasso'])
+    return df
+
 # ritorna la top X dei box office di ogni anno
 # X = ultima posizione da prendere dai box office
 def get_topX(pos):
