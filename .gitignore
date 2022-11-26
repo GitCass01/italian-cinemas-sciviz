@@ -15,6 +15,7 @@ Progetto_sciViz_Cinema.ipynb
 test.py
 .env
 
+!Dati_Cinema_Italiani/tables/
 Dati_Cinema_Italiani/tables/*
 !Dati_Cinema_Italiani/tables/box_office.csv
 !Dati_Cinema_Italiani/tables/nazioni.csv
