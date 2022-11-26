@@ -4,7 +4,6 @@ Dati_Cinema_Italiani/annuari_cinetel/
 Dati_Cinema_Italiani/conf_cinetel/
 Dati_Cinema_Italiani/presentazioni_anica_cinetel/
 Dati_Cinema_Italiani/SIAE/
-Dati_Cinema_Italiani/tables/
 italian-maps-shapefiles-master/
 lib/
 test_pyvis.py
@@ -15,3 +14,11 @@ Movie-Network-Vis.ipynb
 Progetto_sciViz_Cinema.ipynb
 test.py
 .env
+
+Dati_Cinema_Italiani/tables/*
+!Dati_Cinema_Italiani/tables/box_office.csv
+!Dati_Cinema_Italiani/tables/nazioni.csv
+!Dati_Cinema_Italiani/tables/distribuzioni.csv
+!Dati_Cinema_Italiani/tables/mesi.csv
+!Dati_Cinema_Italiani/tables/regioni.csv
+!Dati_Cinema_Italiani/tables/film_ita.csv
