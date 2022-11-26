@@ -10,6 +10,7 @@ lib/
 test_pyvis.py
 Prove_vis.ipynb
 movies_net.html
+net_actors_plotly.html
 Movie-Network-Vis.ipynb
 Progetto_sciViz_Cinema.ipynb
 test.py
