@@ -23,3 +23,7 @@ Dati_Cinema_Italiani/tables/*
 !Dati_Cinema_Italiani/tables/mesi.csv
 !Dati_Cinema_Italiani/tables/regioni.csv
 !Dati_Cinema_Italiani/tables/film_ita.csv
+!Dati_Cinema_Italiani/tables/net_ita_actors.json
+!Dati_Cinema_Italiani/tables/net_other_actors.json
+!Dati_Cinema_Italiani/tables/ita_actors.json
+!Dati_Cinema_Italiani/tables/other_actors.json

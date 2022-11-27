@@ -81,12 +81,18 @@ def occ_genres(ita=True, all=False):
             genres[j['name']] += 1
     return genres
 
-def get_top_actors():
-    path = 'Dati_Cinema_Italiani/tables/ita_actors.json'
+def get_top_actors(ita=True):
+    if ita:
+        path = 'Dati_Cinema_Italiani/tables/ita_actors.json'
+    else:
+        path = 'Dati_Cinema_Italiani/tables/other_actors.json'
     json_file = open(path)
     file = json.load(json_file)
 
-    bo = box_offices[box_offices['Naz.'] == 'ITA']
+    if ita:
+        bo = box_offices[box_offices['Naz.'] == 'ITA']
+    else:
+        bo = box_offices[box_offices['Naz.'] != 'ITA']
 
     for index, row in bo.iterrows():
         film = row['Film']
@@ -117,13 +123,17 @@ def get_top_actors():
     with open(path, "w") as outfile:
             outfile.write(json_object)
 
-def get_actors_network(depth=2):
+def get_actors_network(depth=2, ita=True):
     # json_net = open('Dati_Cinema_Italiani/tables/net_actors.json')
     # file = json.load(json_net)
 
     act_dict = collections.defaultdict(list)
+    
+    if ita:
+        path = 'Dati_Cinema_Italiani/tables/ita_actors.json'
+    else:
+        path = 'Dati_Cinema_Italiani/tables/other_actors.json'
 
-    path = 'Dati_Cinema_Italiani/tables/ita_actors.json'
     json_file = open(path)
     movie_actor = json.load(json_file)
     
@@ -149,5 +159,11 @@ def get_actors_network(depth=2):
                 act_dict[actor2].append(actor1)
     print('Salvataggio...')
     json_object = json.dumps(act_dict)
-    with open('Dati_Cinema_Italiani/tables/net_actors.json', "w") as outfile:
+
+    if ita:
+        path = 'Dati_Cinema_Italiani/tables/net_ita_actors.json'
+    else:
+        path = 'Dati_Cinema_Italiani/tables/net_other_actors.json'
+
+    with open(path, "w") as outfile:
             outfile.write(json_object)

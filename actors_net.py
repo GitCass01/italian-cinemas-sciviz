@@ -5,10 +5,13 @@ import json
 from tmdb_api import *
 from utility import *
 
-def show_ita_actors_net(min_weight=0, depth=2, buttons=False):
-    get_actors_network(depth=depth)
+def show_actors_net(min_weight=0, depth=2, buttons=False, ita=True):
+    get_actors_network(depth=depth, ita=ita)
 
-    json_file = open('Dati_Cinema_Italiani/tables/net_actors.json')
+    if ita:
+        json_file = open('Dati_Cinema_Italiani/tables/net_ita_actors.json')
+    else:
+        json_file = open('Dati_Cinema_Italiani/tables/net_other_actors.json')
     file = json.load(json_file)
 
     print('Generazione network...')
@@ -22,6 +25,9 @@ def show_ita_actors_net(min_weight=0, depth=2, buttons=False):
     for nodei in actors_net.nodes:
         adj = file[nodei['title']]
         for i in adj:
+            if (nodei['title'], i) in actors_net.edges:
+                continue
+
             weight = 0
             for j in adj:
                 if i == j:
@@ -43,6 +49,10 @@ def show_ita_actors_net(min_weight=0, depth=2, buttons=False):
 
     if buttons:
         actors_net.show_buttons()
-    actors_net.show("actors_net.html")
 
-show_ita_actors_net(min_weight=0, depth=3, buttons=True)
+    if ita:
+        actors_net.show("ita_actors_net.html")
+    else:
+        actors_net.show("other_actors_net.html")
+
+show_actors_net(min_weight=2, depth=2, buttons=True, ita=False)
