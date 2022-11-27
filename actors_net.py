@@ -16,8 +16,8 @@ def show_actors_net(min_weight=0, depth=2, buttons=False, ita=True):
 
     print('Generazione network...')
     actors_net = Network(height="700px", width="100%", bgcolor="#222222", font_color="white", filter_menu=True)
-    actors_net.barnes_hut()
-    # actors_net.repulsion()
+    # actors_net.barnes_hut()
+    actors_net.repulsion()
 
     for actor in file:
         actors_net.add_node(actor, label=actor, title=actor)
@@ -51,8 +51,8 @@ def show_actors_net(min_weight=0, depth=2, buttons=False, ita=True):
         actors_net.show_buttons()
 
     if ita:
-        actors_net.show("ita_actors_net.html")
+        actors_net.show("ita_actors_net_depth"+str(depth)+".html")
     else:
-        actors_net.show("other_actors_net.html")
+        actors_net.show("other_actors_net_depth"+str(depth)+".html")
 
-show_actors_net(min_weight=2, depth=2, buttons=True, ita=False)
+show_actors_net(min_weight=2, depth=3, buttons=True, ita=False)

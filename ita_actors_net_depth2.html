@@ -1,0 +1,441 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 700px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 700px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "Christian De Sica", "label": "Christian De Sica", "shape": "dot", "title": "Christian De Sica Neighbors:\nEnrico Brignano\nAlessandro Siani\nSabrina Ferilli\nMassimo Boldi\nRocco Papaleo\nMassimo Ghini\nMichelle Hunziker\nLillo Petrolo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Massimo Boldi", "label": "Massimo Boldi", "shape": "dot", "title": "Massimo Boldi Neighbors:\nSimona Ventura\nVincenzo Salemme\nChristian De Sica\nAnna Maria Barbera"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Roberto Benigni", "label": "Roberto Benigni", "shape": "dot", "title": "Roberto Benigni Neighbors:\nJean Reno"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Jean Reno", "label": "Jean Reno", "shape": "dot", "title": "Jean Reno Neighbors:\nRoberto Benigni\nToni Servillo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Carlo Verdone", "label": "Carlo Verdone", "shape": "dot", "title": "Carlo Verdone Neighbors:\nSergio Castellitto\nIlenia Pastorelli\nPaola Cortellesi\nClaudia Gerini\nMonica Bellucci\nLaura Chiatti\nAntonio Albanese\nRobert De Niro\nPierfrancesco Favino\nSilvio Muccino\nToni Servillo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Silvio Muccino", "label": "Silvio Muccino", "shape": "dot", "title": "Silvio Muccino Neighbors:\nAitana S\u00e1nchez-Gij\u00f3n\nCarlo Verdone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Leonardo Pieraccioni", "label": "Leonardo Pieraccioni", "shape": "dot", "title": "Leonardo Pieraccioni Neighbors:\nSuzie Kennedy\nAriadna Romero\nLaura Torrisi\nLaura Chiatti\nElena Cucci\nSerena Autieri\nGiorgio Panariello"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Giorgio Panariello", "label": "Giorgio Panariello", "shape": "dot", "title": "Giorgio Panariello Neighbors:\nLeonardo Pieraccioni\nNicolas Vaporidis\nVincenzo Salemme"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Aldo Baglio", "label": "Aldo Baglio", "shape": "dot", "title": "Aldo Baglio Neighbors:\nGiovanni Storti"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Giovanni Storti", "label": "Giovanni Storti", "shape": "dot", "title": "Giovanni Storti Neighbors:\nAldo Baglio"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Massimo Ghini", "label": "Massimo Ghini", "shape": "dot", "title": "Massimo Ghini Neighbors:\nChristian De Sica"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Nicolas Vaporidis", "label": "Nicolas Vaporidis", "shape": "dot", "title": "Nicolas Vaporidis Neighbors:\nGiorgio Panariello\nCristiana Capotondi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Diego Abatantuono", "label": "Diego Abatantuono", "shape": "dot", "title": "Diego Abatantuono Neighbors:\nAndrea Pisani\nCarlo Buccirosso\nAlessandro Siani\nClaudio Bisio"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Carlo Buccirosso", "label": "Carlo Buccirosso", "shape": "dot", "title": "Carlo Buccirosso Neighbors:\nDiego Abatantuono"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Silvio Orlando", "label": "Silvio Orlando", "shape": "dot", "title": "Silvio Orlando Neighbors:\nGiovanna Mezzogiorno\nMargherita Buy\nLuciana Littizzetto"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Margherita Buy", "label": "Margherita Buy", "shape": "dot", "title": "Margherita Buy Neighbors:\nSilvio Orlando\nAlba Rohrwacher"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Vincenzo Salemme", "label": "Vincenzo Salemme", "shape": "dot", "title": "Vincenzo Salemme Neighbors:\nAmbra Angiolini\nGiorgio Panariello\nMassimo Boldi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Michelle Hunziker", "label": "Michelle Hunziker", "shape": "dot", "title": "Michelle Hunziker Neighbors:\nChristian De Sica"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Monica Bellucci", "label": "Monica Bellucci", "shape": "dot", "title": "Monica Bellucci Neighbors:\nCarlo Verdone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Laura Torrisi", "label": "Laura Torrisi", "shape": "dot", "title": "Laura Torrisi Neighbors:\nLeonardo Pieraccioni"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Riccardo Scamarcio", "label": "Riccardo Scamarcio", "shape": "dot", "title": "Riccardo Scamarcio Neighbors:\nNicole Grimaudo\nLaura Chiatti"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Laura Chiatti", "label": "Laura Chiatti", "shape": "dot", "title": "Laura Chiatti Neighbors:\nLeonardo Pieraccioni\nRiccardo Scamarcio\nCarlo Verdone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Anna Maria Barbera", "label": "Anna Maria Barbera", "shape": "dot", "title": "Anna Maria Barbera Neighbors:\nMassimo Boldi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Pierfrancesco Favino", "label": "Pierfrancesco Favino", "shape": "dot", "title": "Pierfrancesco Favino Neighbors:\nBarbara Ronchi\nClaudia Gerini\nClaudio Amendola\nMaria Fernanda C\u00e2ndido\nCarlo Verdone\nMicaela Ramazzotti\nStefano Accorsi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Stefano Accorsi", "label": "Stefano Accorsi", "shape": "dot", "title": "Stefano Accorsi Neighbors:\nCarolina Crescentini\nPierfrancesco Favino\nEdoardo Leo\nVittoria Puccini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Salvatore Ficarra", "label": "Salvatore Ficarra", "shape": "dot", "title": "Salvatore Ficarra Neighbors:\nValentino Picone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Valentino Picone", "label": "Valentino Picone", "shape": "dot", "title": "Valentino Picone Neighbors:\nSalvatore Ficarra"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Cristiana Capotondi", "label": "Cristiana Capotondi", "shape": "dot", "title": "Cristiana Capotondi Neighbors:\nFabio De Luigi\nNicolas Vaporidis"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Letizia Ciampa", "label": "Letizia Ciampa", "shape": "dot", "title": "Letizia Ciampa Neighbors:\nPerla Liberatori"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Perla Liberatori", "label": "Perla Liberatori", "shape": "dot", "title": "Perla Liberatori Neighbors:\nLetizia Ciampa"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Claudia Gerini", "label": "Claudia Gerini", "shape": "dot", "title": "Claudia Gerini Neighbors:\nPierfrancesco Favino\nFabio De Luigi\nCarlo Verdone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Raoul Bova", "label": "Raoul Bova", "shape": "dot", "title": "Raoul Bova Neighbors:\nBarbora Bobu\u013eov\u00e1\nMichela Quattrociocche\nPaola Cortellesi\nAlessandro Gassmann"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Michela Quattrociocche", "label": "Michela Quattrociocche", "shape": "dot", "title": "Michela Quattrociocche Neighbors:\nFrancesco Apolloni\nRaoul Bova"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Toni Servillo", "label": "Toni Servillo", "shape": "dot", "title": "Toni Servillo Neighbors:\nCarlo Verdone\nMaria Nazionale\nElena Sofia Ricci\nAnna Bonaiuto\nGianfelice Imparato\nJean Reno"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Gianfelice Imparato", "label": "Gianfelice Imparato", "shape": "dot", "title": "Gianfelice Imparato Neighbors:\nToni Servillo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Lino Banfi", "label": "Lino Banfi", "shape": "dot", "title": "Lino Banfi Neighbors:\nBiagio Izzo\nGigi Proietti"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Biagio Izzo", "label": "Biagio Izzo", "shape": "dot", "title": "Biagio Izzo Neighbors:\nLino Banfi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Aitana S\u00e1nchez-Gij\u00f3n", "label": "Aitana S\u00e1nchez-Gij\u00f3n", "shape": "dot", "title": "Aitana S\u00e1nchez-Gij\u00f3n Neighbors:\nSilvio Muccino"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Simona Ventura", "label": "Simona Ventura", "shape": "dot", "title": "Simona Ventura Neighbors:\nMassimo Boldi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Gigi Proietti", "label": "Gigi Proietti", "shape": "dot", "title": "Gigi Proietti Neighbors:\nLino Banfi\nMarco Giallini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fabio Volo", "label": "Fabio Volo", "shape": "dot", "title": "Fabio Volo Neighbors:\nAmbra Angiolini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Ambra Angiolini", "label": "Ambra Angiolini", "shape": "dot", "title": "Ambra Angiolini Neighbors:\nFabio Volo\nLuca Bizzarri\nVincenzo Salemme"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Anna Bonaiuto", "label": "Anna Bonaiuto", "shape": "dot", "title": "Anna Bonaiuto Neighbors:\nToni Servillo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Checco Zalone", "label": "Checco Zalone", "shape": "dot", "title": "Checco Zalone Neighbors:\nManda Tour\u00e9\nMiriam Dalmazio\nEleonora Giovanardi\nNabiha Akkari\nGiulia Michelini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Giulia Michelini", "label": "Giulia Michelini", "shape": "dot", "title": "Giulia Michelini Neighbors:\nChecco Zalone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sergio Castellitto", "label": "Sergio Castellitto", "shape": "dot", "title": "Sergio Castellitto Neighbors:\nCarlo Verdone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Domhnall Gleeson", "label": "Domhnall Gleeson", "shape": "dot", "title": "Domhnall Gleeson Neighbors:\nAlicia Vikander"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Alicia Vikander", "label": "Alicia Vikander", "shape": "dot", "title": "Alicia Vikander Neighbors:\nDomhnall Gleeson"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Francesco Scianna", "label": "Francesco Scianna", "shape": "dot", "title": "Francesco Scianna Neighbors:\nMargareth Mad\u00e8"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Margareth Mad\u00e8", "label": "Margareth Mad\u00e8", "shape": "dot", "title": "Margareth Mad\u00e8 Neighbors:\nFrancesco Scianna"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Suzie Kennedy", "label": "Suzie Kennedy", "shape": "dot", "title": "Suzie Kennedy Neighbors:\nLeonardo Pieraccioni"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Claudio Bisio", "label": "Claudio Bisio", "shape": "dot", "title": "Claudio Bisio Neighbors:\nAlessandro Siani\nKasia Smutniak\nNancy Brilli\nFrank Matano\nDiego Abatantuono"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Alessandro Siani", "label": "Alessandro Siani", "shape": "dot", "title": "Alessandro Siani Neighbors:\nStefania Spampinato\nDiego Abatantuono\nFabio De Luigi\nClaudio Bisio\nChristian De Sica"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fabio De Luigi", "label": "Fabio De Luigi", "shape": "dot", "title": "Fabio De Luigi Neighbors:\nAlessandro Siani\nPaola Cortellesi\nClaudia Gerini\nValentina Lodovini\nCristiana Capotondi\nLuciana Littizzetto"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Paola Cortellesi", "label": "Paola Cortellesi", "shape": "dot", "title": "Paola Cortellesi Neighbors:\nRaoul Bova\nCarlo Verdone\nStefano Fresi\nValerio Mastandrea\nFabio De Luigi\nRocco Papaleo\nAntonio Albanese"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Vittoria Puccini", "label": "Vittoria Puccini", "shape": "dot", "title": "Vittoria Puccini Neighbors:\nStefano Accorsi\nBenedetta Porcaroli\nMarco Giallini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Luciana Littizzetto", "label": "Luciana Littizzetto", "shape": "dot", "title": "Luciana Littizzetto Neighbors:\nSilvio Orlando\nFabio De Luigi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Nicole Grimaudo", "label": "Nicole Grimaudo", "shape": "dot", "title": "Nicole Grimaudo Neighbors:\nRiccardo Scamarcio"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Francesco Apolloni", "label": "Francesco Apolloni", "shape": "dot", "title": "Francesco Apolloni Neighbors:\nMichela Quattrociocche"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Valerio Mastandrea", "label": "Valerio Mastandrea", "shape": "dot", "title": "Valerio Mastandrea Neighbors:\nMicaela Ramazzotti\nPaola Cortellesi\nMarco Giallini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Micaela Ramazzotti", "label": "Micaela Ramazzotti", "shape": "dot", "title": "Micaela Ramazzotti Neighbors:\nValerio Mastandrea\nPierfrancesco Favino\nValeria Bruni-Tedeschi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Nabiha Akkari", "label": "Nabiha Akkari", "shape": "dot", "title": "Nabiha Akkari Neighbors:\nChecco Zalone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Barbora Bobu\u013eov\u00e1", "label": "Barbora Bobu\u013eov\u00e1", "shape": "dot", "title": "Barbora Bobu\u013eov\u00e1 Neighbors:\nRaoul Bova"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Antonio Albanese", "label": "Antonio Albanese", "shape": "dot", "title": "Antonio Albanese Neighbors:\nNicola Rignanese\nPaola Cortellesi\nCarlo Verdone\nSergio Rubini\nFabrizio Bentivoglio"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sergio Rubini", "label": "Sergio Rubini", "shape": "dot", "title": "Sergio Rubini Neighbors:\nAntonio Albanese"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Nancy Brilli", "label": "Nancy Brilli", "shape": "dot", "title": "Nancy Brilli Neighbors:\nClaudio Bisio"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fabrizio Biggio", "label": "Fabrizio Biggio", "shape": "dot", "title": "Fabrizio Biggio Neighbors:\nFrancesco Mandelli"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Francesco Mandelli", "label": "Francesco Mandelli", "shape": "dot", "title": "Francesco Mandelli Neighbors:\nFabrizio Biggio"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sabrina Ferilli", "label": "Sabrina Ferilli", "shape": "dot", "title": "Sabrina Ferilli Neighbors:\nChristian De Sica"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Ariadna Romero", "label": "Ariadna Romero", "shape": "dot", "title": "Ariadna Romero Neighbors:\nLeonardo Pieraccioni"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Robert De Niro", "label": "Robert De Niro", "shape": "dot", "title": "Robert De Niro Neighbors:\nCarlo Verdone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sean Penn", "label": "Sean Penn", "shape": "dot", "title": "Sean Penn Neighbors:\nOlwen Fou\u00e9r\u00e9"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Olwen Fou\u00e9r\u00e9", "label": "Olwen Fou\u00e9r\u00e9", "shape": "dot", "title": "Olwen Fou\u00e9r\u00e9 Neighbors:\nSean Penn"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Enrico Brignano", "label": "Enrico Brignano", "shape": "dot", "title": "Enrico Brignano Neighbors:\nTosca D\u0027Aquino\nChristian De Sica"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Tosca D\u0027Aquino", "label": "Tosca D\u0027Aquino", "shape": "dot", "title": "Tosca D\u0027Aquino Neighbors:\nEnrico Brignano"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Lillo Petrolo", "label": "Lillo Petrolo", "shape": "dot", "title": "Lillo Petrolo Neighbors:\nChristian De Sica\nClaudio Gregori"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fabrizio Bentivoglio", "label": "Fabrizio Bentivoglio", "shape": "dot", "title": "Fabrizio Bentivoglio Neighbors:\nValeria Bruni-Tedeschi\nAntonio Albanese"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Alessandro Gassmann", "label": "Alessandro Gassmann", "shape": "dot", "title": "Alessandro Gassmann Neighbors:\nRaoul Bova\nMarco Giallini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Pen\u00e9lope Cruz", "label": "Pen\u00e9lope Cruz", "shape": "dot", "title": "Pen\u00e9lope Cruz Neighbors:\nEmile Hirsch"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Emile Hirsch", "label": "Emile Hirsch", "shape": "dot", "title": "Emile Hirsch Neighbors:\nPen\u00e9lope Cruz"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Miriam Dalmazio", "label": "Miriam Dalmazio", "shape": "dot", "title": "Miriam Dalmazio Neighbors:\nChecco Zalone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Geoffrey Rush", "label": "Geoffrey Rush", "shape": "dot", "title": "Geoffrey Rush Neighbors:\nJim Sturgess"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Jim Sturgess", "label": "Jim Sturgess", "shape": "dot", "title": "Jim Sturgess Neighbors:\nGeoffrey Rush"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Kasia Smutniak", "label": "Kasia Smutniak", "shape": "dot", "title": "Kasia Smutniak Neighbors:\nClaudio Bisio\nFrancesco Arca"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Serena Autieri", "label": "Serena Autieri", "shape": "dot", "title": "Serena Autieri Neighbors:\nLeonardo Pieraccioni"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Paolo Ruffini", "label": "Paolo Ruffini", "shape": "dot", "title": "Paolo Ruffini Neighbors:\nFrank Matano"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Frank Matano", "label": "Frank Matano", "shape": "dot", "title": "Frank Matano Neighbors:\nPaolo Ruffini\nClaudio Bisio"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "John Malkovich", "label": "John Malkovich", "shape": "dot", "title": "John Malkovich Neighbors:\nArnas Fedaravicius"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Arnas Fedaravicius", "label": "Arnas Fedaravicius", "shape": "dot", "title": "Arnas Fedaravicius Neighbors:\nJohn Malkovich"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Rocco Papaleo", "label": "Rocco Papaleo", "shape": "dot", "title": "Rocco Papaleo Neighbors:\nPaola Cortellesi\nChristian De Sica"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Marco Giallini", "label": "Marco Giallini", "shape": "dot", "title": "Marco Giallini Neighbors:\nValerio Mastandrea\nGigi Proietti\nAlessandro Gassmann\nVittoria Puccini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Elio Germano", "label": "Elio Germano", "shape": "dot", "title": "Elio Germano Neighbors:\nOliver Ewy\nMichele Riondino"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Michele Riondino", "label": "Michele Riondino", "shape": "dot", "title": "Michele Riondino Neighbors:\nElio Germano"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Valeria Bruni-Tedeschi", "label": "Valeria Bruni-Tedeschi", "shape": "dot", "title": "Valeria Bruni-Tedeschi Neighbors:\nFabrizio Bentivoglio\nMicaela Ramazzotti"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Claudio Gregori", "label": "Claudio Gregori", "shape": "dot", "title": "Claudio Gregori Neighbors:\nLillo Petrolo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Francesco Arca", "label": "Francesco Arca", "shape": "dot", "title": "Francesco Arca Neighbors:\nKasia Smutniak"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Michael Caine", "label": "Michael Caine", "shape": "dot", "title": "Michael Caine Neighbors:\nHarvey Keitel"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Harvey Keitel", "label": "Harvey Keitel", "shape": "dot", "title": "Harvey Keitel Neighbors:\nMichael Caine"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Claudio Amendola", "label": "Claudio Amendola", "shape": "dot", "title": "Claudio Amendola Neighbors:\nPierfrancesco Favino"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Andrea Pisani", "label": "Andrea Pisani", "shape": "dot", "title": "Andrea Pisani Neighbors:\nDiego Abatantuono"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Maccio Capatonda", "label": "Maccio Capatonda", "shape": "dot", "title": "Maccio Capatonda Neighbors:\nHerbert Ballerina"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Herbert Ballerina", "label": "Herbert Ballerina", "shape": "dot", "title": "Herbert Ballerina Neighbors:\nMaccio Capatonda"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Luca Argentero", "label": "Luca Argentero", "shape": "dot", "title": "Luca Argentero Neighbors:\nEdoardo Leo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Edoardo Leo", "label": "Edoardo Leo", "shape": "dot", "title": "Edoardo Leo Neighbors:\nLuca Argentero\nStefano Accorsi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Eleonora Giovanardi", "label": "Eleonora Giovanardi", "shape": "dot", "title": "Eleonora Giovanardi Neighbors:\nChecco Zalone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Giuseppe Battiston", "label": "Giuseppe Battiston", "shape": "dot", "title": "Giuseppe Battiston Neighbors:\nAnna Foglietta"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Anna Foglietta", "label": "Anna Foglietta", "shape": "dot", "title": "Anna Foglietta Neighbors:\nGiuseppe Battiston"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Tony Leung Chiu-wai", "label": "Tony Leung Chiu-wai", "shape": "dot", "title": "Tony Leung Chiu-wai Neighbors:\nBai Baihe"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Bai Baihe", "label": "Bai Baihe", "shape": "dot", "title": "Bai Baihe Neighbors:\nTony Leung Chiu-wai"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Claudio Santamaria", "label": "Claudio Santamaria", "shape": "dot", "title": "Claudio Santamaria Neighbors:\nLuca Marinelli\nAurora Giovinazzo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Luca Marinelli", "label": "Luca Marinelli", "shape": "dot", "title": "Luca Marinelli Neighbors:\nClaudio Santamaria"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Pif", "label": "Pif", "shape": "dot", "title": "Pif Neighbors:\nMiriam Leone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Miriam Leone", "label": "Miriam Leone", "shape": "dot", "title": "Miriam Leone Neighbors:\nPif"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Carolina Crescentini", "label": "Carolina Crescentini", "shape": "dot", "title": "Carolina Crescentini Neighbors:\nStefano Accorsi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Ilenia Pastorelli", "label": "Ilenia Pastorelli", "shape": "dot", "title": "Ilenia Pastorelli Neighbors:\nCarlo Verdone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Giovanna Mezzogiorno", "label": "Giovanna Mezzogiorno", "shape": "dot", "title": "Giovanna Mezzogiorno Neighbors:\nSilvio Orlando\nAlessandro Borghi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Alessandro Borghi", "label": "Alessandro Borghi", "shape": "dot", "title": "Alessandro Borghi Neighbors:\nGiovanna Mezzogiorno"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Elena Cucci", "label": "Elena Cucci", "shape": "dot", "title": "Elena Cucci Neighbors:\nLeonardo Pieraccioni"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Elena Sofia Ricci", "label": "Elena Sofia Ricci", "shape": "dot", "title": "Elena Sofia Ricci Neighbors:\nToni Servillo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Stefano Fresi", "label": "Stefano Fresi", "shape": "dot", "title": "Stefano Fresi Neighbors:\nPaola Cortellesi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fabio Rovazzi", "label": "Fabio Rovazzi", "shape": "dot", "title": "Fabio Rovazzi Neighbors:\nLuca Zingaretti"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Luca Zingaretti", "label": "Luca Zingaretti", "shape": "dot", "title": "Luca Zingaretti Neighbors:\nFabio Rovazzi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Benjamin Evan Ainsworth", "label": "Benjamin Evan Ainsworth", "shape": "dot", "title": "Benjamin Evan Ainsworth Neighbors:\nTom Hanks"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Tom Hanks", "label": "Tom Hanks", "shape": "dot", "title": "Tom Hanks Neighbors:\nBenjamin Evan Ainsworth"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Valentina Lodovini", "label": "Valentina Lodovini", "shape": "dot", "title": "Valentina Lodovini Neighbors:\nFabio De Luigi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Stefania Spampinato", "label": "Stefania Spampinato", "shape": "dot", "title": "Stefania Spampinato Neighbors:\nAlessandro Siani"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Marco D\u0027Amore", "label": "Marco D\u0027Amore", "shape": "dot", "title": "Marco D\u0027Amore Neighbors:\nGiuseppe Aiello"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Giuseppe Aiello", "label": "Giuseppe Aiello", "shape": "dot", "title": "Giuseppe Aiello Neighbors:\nMarco D\u0027Amore"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Nicola Rignanese", "label": "Nicola Rignanese", "shape": "dot", "title": "Nicola Rignanese Neighbors:\nAntonio Albanese"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Maria Fernanda C\u00e2ndido", "label": "Maria Fernanda C\u00e2ndido", "shape": "dot", "title": "Maria Fernanda C\u00e2ndido Neighbors:\nPierfrancesco Favino"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Manda Tour\u00e9", "label": "Manda Tour\u00e9", "shape": "dot", "title": "Manda Tour\u00e9 Neighbors:\nChecco Zalone"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Sofia Scalia", "label": "Sofia Scalia", "shape": "dot", "title": "Sofia Scalia Neighbors:\nLuigi Calagna"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Luigi Calagna", "label": "Luigi Calagna", "shape": "dot", "title": "Luigi Calagna Neighbors:\nSofia Scalia"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Benedetta Porcaroli", "label": "Benedetta Porcaroli", "shape": "dot", "title": "Benedetta Porcaroli Neighbors:\nGiulio Pranno\nVittoria Puccini"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Barbara Ronchi", "label": "Barbara Ronchi", "shape": "dot", "title": "Barbara Ronchi Neighbors:\nPierfrancesco Favino"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Oliver Ewy", "label": "Oliver Ewy", "shape": "dot", "title": "Oliver Ewy Neighbors:\nElio Germano"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Francesco Totti", "label": "Francesco Totti", "shape": "dot", "title": "Francesco Totti Neighbors:\nIlary Blasi"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Ilary Blasi", "label": "Ilary Blasi", "shape": "dot", "title": "Ilary Blasi Neighbors:\nFrancesco Totti"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Aurora Giovinazzo", "label": "Aurora Giovinazzo", "shape": "dot", "title": "Aurora Giovinazzo Neighbors:\nClaudio Santamaria"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "John Phillip Law", "label": "John Phillip Law", "shape": "dot", "title": "John Phillip Law Neighbors:\nMarisa Mell"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Marisa Mell", "label": "Marisa Mell", "shape": "dot", "title": "Marisa Mell Neighbors:\nJohn Phillip Law"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Alba Rohrwacher", "label": "Alba Rohrwacher", "shape": "dot", "title": "Alba Rohrwacher Neighbors:\nMargherita Buy"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Giulio Pranno", "label": "Giulio Pranno", "shape": "dot", "title": "Giulio Pranno Neighbors:\nBenedetta Porcaroli"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Maria Nazionale", "label": "Maria Nazionale", "shape": "dot", "title": "Maria Nazionale Neighbors:\nToni Servillo"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Luca Bizzarri", "label": "Luca Bizzarri", "shape": "dot", "title": "Luca Bizzarri Neighbors:\nAmbra Angiolini"}]);
+                  edges = new vis.DataSet([{"from": "Christian De Sica", "title": "Christian De Sica - Massimo Boldi, 6", "to": "Massimo Boldi", "value": 6}, {"from": "Christian De Sica", "title": "Christian De Sica - Massimo Ghini, 6", "to": "Massimo Ghini", "value": 6}, {"from": "Christian De Sica", "title": "Christian De Sica - Michelle Hunziker, 6", "to": "Michelle Hunziker", "value": 6}, {"from": "Christian De Sica", "title": "Christian De Sica - Sabrina Ferilli, 2", "to": "Sabrina Ferilli", "value": 2}, {"from": "Christian De Sica", "title": "Christian De Sica - Lillo Petrolo, 4", "to": "Lillo Petrolo", "value": 4}, {"from": "Christian De Sica", "title": "Christian De Sica - Alessandro Siani, 4", "to": "Alessandro Siani", "value": 4}, {"from": "Christian De Sica", "title": "Christian De Sica - Rocco Papaleo, 2", "to": "Rocco Papaleo", "value": 2}, {"from": "Christian De Sica", "title": "Christian De Sica - Enrico Brignano, 4", "to": "Enrico Brignano", "value": 4}, {"from": "Massimo Boldi", "title": "Massimo Boldi - Vincenzo Salemme, 4", "to": "Vincenzo Salemme", "value": 4}, {"from": "Massimo Boldi", "title": "Massimo Boldi - Anna Maria Barbera, 4", "to": "Anna Maria Barbera", "value": 4}, {"from": "Massimo Boldi", "title": "Massimo Boldi - Simona Ventura, 2", "to": "Simona Ventura", "value": 2}, {"from": "Roberto Benigni", "title": "Roberto Benigni - Jean Reno, 2", "to": "Jean Reno", "value": 2}, {"from": "Jean Reno", "title": "Jean Reno - Toni Servillo, 2", "to": "Toni Servillo", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Silvio Muccino, 4", "to": "Silvio Muccino", "value": 4}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Monica Bellucci, 2", "to": "Monica Bellucci", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Claudia Gerini, 2", "to": "Claudia Gerini", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Sergio Castellitto, 2", "to": "Sergio Castellitto", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Laura Chiatti, 2", "to": "Laura Chiatti", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Robert De Niro, 2", "to": "Robert De Niro", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Pierfrancesco Favino, 2", "to": "Pierfrancesco Favino", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Toni Servillo, 2", "to": "Toni Servillo", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Paola Cortellesi, 2", "to": "Paola Cortellesi", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Antonio Albanese, 2", "to": "Antonio Albanese", "value": 2}, {"from": "Carlo Verdone", "title": "Carlo Verdone - Ilenia Pastorelli, 2", "to": "Ilenia Pastorelli", "value": 2}, {"from": "Silvio Muccino", "title": "Silvio Muccino - Aitana S\u00e1nchez-Gij\u00f3n, 2", "to": "Aitana S\u00e1nchez-Gij\u00f3n", "value": 2}, {"from": "Leonardo Pieraccioni", "title": "Leonardo Pieraccioni - Giorgio Panariello, 2", "to": "Giorgio Panariello", "value": 2}, {"from": "Leonardo Pieraccioni", "title": "Leonardo Pieraccioni - Laura Torrisi, 2", "to": "Laura Torrisi", "value": 2}, {"from": "Leonardo Pieraccioni", "title": "Leonardo Pieraccioni - Suzie Kennedy, 2", "to": "Suzie Kennedy", "value": 2}, {"from": "Leonardo Pieraccioni", "title": "Leonardo Pieraccioni - Ariadna Romero, 2", "to": "Ariadna Romero", "value": 2}, {"from": "Leonardo Pieraccioni", "title": "Leonardo Pieraccioni - Serena Autieri, 2", "to": "Serena Autieri", "value": 2}, {"from": "Leonardo Pieraccioni", "title": "Leonardo Pieraccioni - Laura Chiatti, 2", "to": "Laura Chiatti", "value": 2}, {"from": "Leonardo Pieraccioni", "title": "Leonardo Pieraccioni - Elena Cucci, 2", "to": "Elena Cucci", "value": 2}, {"from": "Giorgio Panariello", "title": "Giorgio Panariello - Nicolas Vaporidis, 4", "to": "Nicolas Vaporidis", "value": 4}, {"from": "Giorgio Panariello", "title": "Giorgio Panariello - Vincenzo Salemme, 2", "to": "Vincenzo Salemme", "value": 2}, {"from": "Aldo Baglio", "title": "Aldo Baglio - Giovanni Storti, 12", "to": "Giovanni Storti", "value": 12}, {"from": "Nicolas Vaporidis", "title": "Nicolas Vaporidis - Cristiana Capotondi, 2", "to": "Cristiana Capotondi", "value": 2}, {"from": "Diego Abatantuono", "title": "Diego Abatantuono - Carlo Buccirosso, 2", "to": "Carlo Buccirosso", "value": 2}, {"from": "Diego Abatantuono", "title": "Diego Abatantuono - Claudio Bisio, 2", "to": "Claudio Bisio", "value": 2}, {"from": "Diego Abatantuono", "title": "Diego Abatantuono - Andrea Pisani, 2", "to": "Andrea Pisani", "value": 2}, {"from": "Diego Abatantuono", "title": "Diego Abatantuono - Alessandro Siani, 2", "to": "Alessandro Siani", "value": 2}, {"from": "Silvio Orlando", "title": "Silvio Orlando - Margherita Buy, 2", "to": "Margherita Buy", "value": 2}, {"from": "Silvio Orlando", "title": "Silvio Orlando - Luciana Littizzetto, 2", "to": "Luciana Littizzetto", "value": 2}, {"from": "Silvio Orlando", "title": "Silvio Orlando - Giovanna Mezzogiorno, 2", "to": "Giovanna Mezzogiorno", "value": 2}, {"from": "Margherita Buy", "title": "Margherita Buy - Alba Rohrwacher, 2", "to": "Alba Rohrwacher", "value": 2}, {"from": "Vincenzo Salemme", "title": "Vincenzo Salemme - Ambra Angiolini, 2", "to": "Ambra Angiolini", "value": 2}, {"from": "Riccardo Scamarcio", "title": "Riccardo Scamarcio - Laura Chiatti, 2", "to": "Laura Chiatti", "value": 2}, {"from": "Riccardo Scamarcio", "title": "Riccardo Scamarcio - Nicole Grimaudo, 2", "to": "Nicole Grimaudo", "value": 2}, {"from": "Pierfrancesco Favino", "title": "Pierfrancesco Favino - Stefano Accorsi, 2", "to": "Stefano Accorsi", "value": 2}, {"from": "Pierfrancesco Favino", "title": "Pierfrancesco Favino - Claudio Amendola, 2", "to": "Claudio Amendola", "value": 2}, {"from": "Pierfrancesco Favino", "title": "Pierfrancesco Favino - Maria Fernanda C\u00e2ndido, 2", "to": "Maria Fernanda C\u00e2ndido", "value": 2}, {"from": "Pierfrancesco Favino", "title": "Pierfrancesco Favino - Claudia Gerini, 2", "to": "Claudia Gerini", "value": 2}, {"from": "Pierfrancesco Favino", "title": "Pierfrancesco Favino - Micaela Ramazzotti, 2", "to": "Micaela Ramazzotti", "value": 2}, {"from": "Pierfrancesco Favino", "title": "Pierfrancesco Favino - Barbara Ronchi, 2", "to": "Barbara Ronchi", "value": 2}, {"from": "Stefano Accorsi", "title": "Stefano Accorsi - Vittoria Puccini, 2", "to": "Vittoria Puccini", "value": 2}, {"from": "Stefano Accorsi", "title": "Stefano Accorsi - Carolina Crescentini, 2", "to": "Carolina Crescentini", "value": 2}, {"from": "Stefano Accorsi", "title": "Stefano Accorsi - Edoardo Leo, 2", "to": "Edoardo Leo", "value": 2}, {"from": "Salvatore Ficarra", "title": "Salvatore Ficarra - Valentino Picone, 12", "to": "Valentino Picone", "value": 12}, {"from": "Cristiana Capotondi", "title": "Cristiana Capotondi - Fabio De Luigi, 4", "to": "Fabio De Luigi", "value": 4}, {"from": "Letizia Ciampa", "title": "Letizia Ciampa - Perla Liberatori, 2", "to": "Perla Liberatori", "value": 2}, {"from": "Claudia Gerini", "title": "Claudia Gerini - Fabio De Luigi, 2", "to": "Fabio De Luigi", "value": 2}, {"from": "Raoul Bova", "title": "Raoul Bova - Michela Quattrociocche, 2", "to": "Michela Quattrociocche", "value": 2}, {"from": "Raoul Bova", "title": "Raoul Bova - Barbora Bobu\u013eov\u00e1, 4", "to": "Barbora Bobu\u013eov\u00e1", "value": 4}, {"from": "Raoul Bova", "title": "Raoul Bova - Paola Cortellesi, 4", "to": "Paola Cortellesi", "value": 4}, {"from": "Raoul Bova", "title": "Raoul Bova - Alessandro Gassmann, 2", "to": "Alessandro Gassmann", "value": 2}, {"from": "Michela Quattrociocche", "title": "Michela Quattrociocche - Francesco Apolloni, 2", "to": "Francesco Apolloni", "value": 2}, {"from": "Toni Servillo", "title": "Toni Servillo - Gianfelice Imparato, 2", "to": "Gianfelice Imparato", "value": 2}, {"from": "Toni Servillo", "title": "Toni Servillo - Anna Bonaiuto, 2", "to": "Anna Bonaiuto", "value": 2}, {"from": "Toni Servillo", "title": "Toni Servillo - Elena Sofia Ricci, 2", "to": "Elena Sofia Ricci", "value": 2}, {"from": "Toni Servillo", "title": "Toni Servillo - Maria Nazionale, 2", "to": "Maria Nazionale", "value": 2}, {"from": "Lino Banfi", "title": "Lino Banfi - Biagio Izzo, 2", "to": "Biagio Izzo", "value": 2}, {"from": "Lino Banfi", "title": "Lino Banfi - Gigi Proietti, 2", "to": "Gigi Proietti", "value": 2}, {"from": "Gigi Proietti", "title": "Gigi Proietti - Marco Giallini, 2", "to": "Marco Giallini", "value": 2}, {"from": "Fabio Volo", "title": "Fabio Volo - Ambra Angiolini, 2", "to": "Ambra Angiolini", "value": 2}, {"from": "Ambra Angiolini", "title": "Ambra Angiolini - Luca Bizzarri, 2", "to": "Luca Bizzarri", "value": 2}, {"from": "Checco Zalone", "title": "Checco Zalone - Giulia Michelini, 2", "to": "Giulia Michelini", "value": 2}, {"from": "Checco Zalone", "title": "Checco Zalone - Nabiha Akkari, 2", "to": "Nabiha Akkari", "value": 2}, {"from": "Checco Zalone", "title": "Checco Zalone - Miriam Dalmazio, 2", "to": "Miriam Dalmazio", "value": 2}, {"from": "Checco Zalone", "title": "Checco Zalone - Eleonora Giovanardi, 2", "to": "Eleonora Giovanardi", "value": 2}, {"from": "Checco Zalone", "title": "Checco Zalone - Manda Tour\u00e9, 2", "to": "Manda Tour\u00e9", "value": 2}, {"from": "Domhnall Gleeson", "title": "Domhnall Gleeson - Alicia Vikander, 2", "to": "Alicia Vikander", "value": 2}, {"from": "Francesco Scianna", "title": "Francesco Scianna - Margareth Mad\u00e8, 2", "to": "Margareth Mad\u00e8", "value": 2}, {"from": "Claudio Bisio", "title": "Claudio Bisio - Alessandro Siani, 4", "to": "Alessandro Siani", "value": 4}, {"from": "Claudio Bisio", "title": "Claudio Bisio - Nancy Brilli, 2", "to": "Nancy Brilli", "value": 2}, {"from": "Claudio Bisio", "title": "Claudio Bisio - Kasia Smutniak, 2", "to": "Kasia Smutniak", "value": 2}, {"from": "Claudio Bisio", "title": "Claudio Bisio - Frank Matano, 2", "to": "Frank Matano", "value": 2}, {"from": "Alessandro Siani", "title": "Alessandro Siani - Fabio De Luigi, 2", "to": "Fabio De Luigi", "value": 2}, {"from": "Alessandro Siani", "title": "Alessandro Siani - Stefania Spampinato, 2", "to": "Stefania Spampinato", "value": 2}, {"from": "Fabio De Luigi", "title": "Fabio De Luigi - Paola Cortellesi, 2", "to": "Paola Cortellesi", "value": 2}, {"from": "Fabio De Luigi", "title": "Fabio De Luigi - Luciana Littizzetto, 2", "to": "Luciana Littizzetto", "value": 2}, {"from": "Fabio De Luigi", "title": "Fabio De Luigi - Valentina Lodovini, 2", "to": "Valentina Lodovini", "value": 2}, {"from": "Paola Cortellesi", "title": "Paola Cortellesi - Rocco Papaleo, 2", "to": "Rocco Papaleo", "value": 2}, {"from": "Paola Cortellesi", "title": "Paola Cortellesi - Antonio Albanese, 6", "to": "Antonio Albanese", "value": 6}, {"from": "Paola Cortellesi", "title": "Paola Cortellesi - Stefano Fresi, 4", "to": "Stefano Fresi", "value": 4}, {"from": "Paola Cortellesi", "title": "Paola Cortellesi - Valerio Mastandrea, 2", "to": "Valerio Mastandrea", "value": 2}, {"from": "Vittoria Puccini", "title": "Vittoria Puccini - Marco Giallini, 2", "to": "Marco Giallini", "value": 2}, {"from": "Vittoria Puccini", "title": "Vittoria Puccini - Benedetta Porcaroli, 2", "to": "Benedetta Porcaroli", "value": 2}, {"from": "Valerio Mastandrea", "title": "Valerio Mastandrea - Micaela Ramazzotti, 2", "to": "Micaela Ramazzotti", "value": 2}, {"from": "Valerio Mastandrea", "title": "Valerio Mastandrea - Marco Giallini, 2", "to": "Marco Giallini", "value": 2}, {"from": "Micaela Ramazzotti", "title": "Micaela Ramazzotti - Valeria Bruni-Tedeschi, 2", "to": "Valeria Bruni-Tedeschi", "value": 2}, {"from": "Antonio Albanese", "title": "Antonio Albanese - Sergio Rubini, 2", "to": "Sergio Rubini", "value": 2}, {"from": "Antonio Albanese", "title": "Antonio Albanese - Fabrizio Bentivoglio, 2", "to": "Fabrizio Bentivoglio", "value": 2}, {"from": "Antonio Albanese", "title": "Antonio Albanese - Nicola Rignanese, 2", "to": "Nicola Rignanese", "value": 2}, {"from": "Fabrizio Biggio", "title": "Fabrizio Biggio - Francesco Mandelli, 4", "to": "Francesco Mandelli", "value": 4}, {"from": "Sean Penn", "title": "Sean Penn - Olwen Fou\u00e9r\u00e9, 2", "to": "Olwen Fou\u00e9r\u00e9", "value": 2}, {"from": "Enrico Brignano", "title": "Enrico Brignano - Tosca D\u0027Aquino, 2", "to": "Tosca D\u0027Aquino", "value": 2}, {"from": "Lillo Petrolo", "title": "Lillo Petrolo - Claudio Gregori, 4", "to": "Claudio Gregori", "value": 4}, {"from": "Fabrizio Bentivoglio", "title": "Fabrizio Bentivoglio - Valeria Bruni-Tedeschi, 2", "to": "Valeria Bruni-Tedeschi", "value": 2}, {"from": "Alessandro Gassmann", "title": "Alessandro Gassmann - Marco Giallini, 6", "to": "Marco Giallini", "value": 6}, {"from": "Pen\u00e9lope Cruz", "title": "Pen\u00e9lope Cruz - Emile Hirsch, 2", "to": "Emile Hirsch", "value": 2}, {"from": "Geoffrey Rush", "title": "Geoffrey Rush - Jim Sturgess, 2", "to": "Jim Sturgess", "value": 2}, {"from": "Kasia Smutniak", "title": "Kasia Smutniak - Francesco Arca, 2", "to": "Francesco Arca", "value": 2}, {"from": "Paolo Ruffini", "title": "Paolo Ruffini - Frank Matano, 2", "to": "Frank Matano", "value": 2}, {"from": "John Malkovich", "title": "John Malkovich - Arnas Fedaravicius, 2", "to": "Arnas Fedaravicius", "value": 2}, {"from": "Elio Germano", "title": "Elio Germano - Michele Riondino, 2", "to": "Michele Riondino", "value": 2}, {"from": "Elio Germano", "title": "Elio Germano - Oliver Ewy, 2", "to": "Oliver Ewy", "value": 2}, {"from": "Michael Caine", "title": "Michael Caine - Harvey Keitel, 2", "to": "Harvey Keitel", "value": 2}, {"from": "Maccio Capatonda", "title": "Maccio Capatonda - Herbert Ballerina, 2", "to": "Herbert Ballerina", "value": 2}, {"from": "Luca Argentero", "title": "Luca Argentero - Edoardo Leo, 2", "to": "Edoardo Leo", "value": 2}, {"from": "Giuseppe Battiston", "title": "Giuseppe Battiston - Anna Foglietta, 2", "to": "Anna Foglietta", "value": 2}, {"from": "Tony Leung Chiu-wai", "title": "Tony Leung Chiu-wai - Bai Baihe, 2", "to": "Bai Baihe", "value": 2}, {"from": "Claudio Santamaria", "title": "Claudio Santamaria - Luca Marinelli, 2", "to": "Luca Marinelli", "value": 2}, {"from": "Claudio Santamaria", "title": "Claudio Santamaria - Aurora Giovinazzo, 2", "to": "Aurora Giovinazzo", "value": 2}, {"from": "Pif", "title": "Pif - Miriam Leone, 2", "to": "Miriam Leone", "value": 2}, {"from": "Giovanna Mezzogiorno", "title": "Giovanna Mezzogiorno - Alessandro Borghi, 2", "to": "Alessandro Borghi", "value": 2}, {"from": "Fabio Rovazzi", "title": "Fabio Rovazzi - Luca Zingaretti, 2", "to": "Luca Zingaretti", "value": 2}, {"from": "Benjamin Evan Ainsworth", "title": "Benjamin Evan Ainsworth - Tom Hanks, 2", "to": "Tom Hanks", "value": 2}, {"from": "Marco D\u0027Amore", "title": "Marco D\u0027Amore - Giuseppe Aiello, 2", "to": "Giuseppe Aiello", "value": 2}, {"from": "Sofia Scalia", "title": "Sofia Scalia - Luigi Calagna, 4", "to": "Luigi Calagna", "value": 4}, {"from": "Benedetta Porcaroli", "title": "Benedetta Porcaroli - Giulio Pranno, 2", "to": "Giulio Pranno", "value": 2}, {"from": "Francesco Totti", "title": "Francesco Totti - Ilary Blasi, 2", "to": "Ilary Blasi", "value": 2}, {"from": "John Phillip Law", "title": "John Phillip Law - Marisa Mell, 2", "to": "Marisa Mell", "value": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
