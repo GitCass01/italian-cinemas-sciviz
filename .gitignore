@@ -8,22 +8,30 @@ italian-maps-shapefiles-master/
 lib/
 test_pyvis.py
 Prove_vis.ipynb
-movies_net.html
 net_actors_plotly.html
-Movie-Network-Vis.ipynb
 Progetto_sciViz_Cinema.ipynb
 test.py
 .env
 
 !Dati_Cinema_Italiani/tables/
 Dati_Cinema_Italiani/tables/*
+
+# cinetel/siae data
 !Dati_Cinema_Italiani/tables/box_office.csv
 !Dati_Cinema_Italiani/tables/nazioni.csv
 !Dati_Cinema_Italiani/tables/distribuzioni.csv
 !Dati_Cinema_Italiani/tables/mesi.csv
 !Dati_Cinema_Italiani/tables/regioni.csv
 !Dati_Cinema_Italiani/tables/film_ita.csv
+!Dati_Cinema_Italiani/tables/numero_film.csv
+
+# network graph data
 !Dati_Cinema_Italiani/tables/net_ita_actors.json
 !Dati_Cinema_Italiani/tables/net_other_actors.json
 !Dati_Cinema_Italiani/tables/ita_actors.json
 !Dati_Cinema_Italiani/tables/other_actors.json
+
+# SIAE data
+!Dati_Cinema_Italiani/tables/costo_biglietti.csv
+!Dati_Cinema_Italiani/tables/info_cinema.csv
+!Dati_Cinema_Italiani/tables/num_luoghi.csv
