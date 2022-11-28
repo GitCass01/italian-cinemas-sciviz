@@ -2,7 +2,7 @@
 Project created for the "Visualizzazione Scientifica" course in 2022-2023.
 
 # How I extracted the [data](#credit)
-- most of the data that i found, was in **pdf** format, the "good" thing was that the data itself is in a tabular format, so i used a tool written in java [tabula](https://tabula.technology/) to extract the data in **csv** format. 
+- Most of the data that i found, was in **pdf** format, the "good" thing was that the data itself is in a tabular format, so i used a tool, [tabula](https://tabula.technology/), written in java to extract the data in **csv** format. 
 - I couldn't find a way to automate the process, although there is also a [python version](https://pypi.org/project/tabula-py/) of tabula, but, in this case was less effective than the original tool.
 - Also, sometimes, the tool wasn't able to get all the data, or it got partial data or it merged multiple column in ones, so i had to restore the data manually. I also used an extension on vscode called [edit csv](https://marketplace.visualstudio.com/items?itemName=janisdd.vscode-edit-csv), in order to facilitate this task. This is also his [github](https://github.com/janisdd/vscode-edit-csv).
 - Other data was in **excel** format, but also in this case i couldn't find a way to automate the process, because the files structure was the same only for some years, and the *spreadsheet* names were different too. This time the data was fewer and the copy/paste was also easier.
