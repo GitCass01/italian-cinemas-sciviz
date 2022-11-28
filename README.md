@@ -11,5 +11,5 @@ Project created for the "Visualizzazione Scientifica" course in 2022-2023.
 # Credit
 - to [Cinetel/Anica](https://www.cinetel.it/pages/studi_e_ricerche.php), where you can find most of the data that i reworked
 - to [SIAE](https://www.siae.it/it/cosa-facciamo/dati-dello-spettacolo/), where you can find other data that i reworked
-- to [sramazzina/italian-maps-shapefiles](https://github.com/sramazzina/italian-maps-shapefiles), for the geodata of Italy
+- to [Istat](https://www.istat.it/it/archivio/222527), where you can find the shapefiles of Italy
 - to [TMDB API](https://developers.themoviedb.org/3/getting-started/introduction), for the movies/actors data

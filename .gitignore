@@ -1,11 +1,7 @@
+# dati di sistema/progetto/testing
 __pycache__/
 .vscode
 .ipynb_checkpoints
-Dati_Cinema_Italiani/annuari_cinetel/
-Dati_Cinema_Italiani/conf_cinetel/
-Dati_Cinema_Italiani/presentazioni_anica_cinetel/
-Dati_Cinema_Italiani/SIAE/
-italian-maps-shapefiles-master/
 lib/
 test_pyvis.py
 Prove_vis.ipynb
@@ -13,6 +9,17 @@ net_actors_plotly.html
 Progetto_sciViz_Cinema.ipynb
 test.py
 .env
+
+# raw data
+Dati_Cinema_Italiani/annuari_cinetel/
+Dati_Cinema_Italiani/conf_cinetel/
+Dati_Cinema_Italiani/presentazioni_anica_cinetel/
+Dati_Cinema_Italiani/SIAE/
+
+# altri shapefile dell'italia
+Limiti01012022_g/Limiti01012022_g/Com01012022_g/
+Limiti01012022_g/Limiti01012022_g/ProvCM01012022_g/
+Limiti01012022_g/Limiti01012022_g/RipGeo01012022_g/
 
 !Dati_Cinema_Italiani/tables/
 Dati_Cinema_Italiani/tables/*
