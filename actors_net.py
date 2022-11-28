@@ -16,11 +16,10 @@ def show_actors_net(min_weight=0, depth=2, buttons=False, ita=True):
 
     print('Generazione network...')
     actors_net = Network(height="700px", width="100%", bgcolor="#222222", font_color="white", filter_menu=True)
-    # actors_net.barnes_hut()
-    actors_net.repulsion()
+    actors_net.force_atlas_2based()
 
     for actor in file:
-        actors_net.add_node(actor, label=actor, title=actor)
+        actors_net.add_node(actor, label=actor, title=actor, size=12)
 
     for nodei in actors_net.nodes:
         adj = file[nodei['title']]
