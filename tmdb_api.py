@@ -159,6 +159,7 @@ def get_actors_network(depth=2, ita=True):
                 act_dict[actor2].append(actor1)
     print('Salvataggio...')
     json_object = json.dumps(act_dict)
+    json_file.close()
 
     if ita:
         path = 'Dati_Cinema_Italiani/tables/net_ita_actors.json'
@@ -166,4 +167,4 @@ def get_actors_network(depth=2, ita=True):
         path = 'Dati_Cinema_Italiani/tables/net_other_actors.json'
 
     with open(path, "w") as outfile:
-            outfile.write(json_object)
+        outfile.write(json_object)

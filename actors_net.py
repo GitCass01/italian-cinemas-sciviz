@@ -46,6 +46,7 @@ def show_actors_net(min_weight=0, depth=2, buttons=False, ita=True):
     print('Network creata')
     print('numero nodi: ' + str(len(actors_net.nodes)))
     print('numero archi: ' + str(len(actors_net.edges)))
+    print('\n\n')
 
     if buttons:
         actors_net.show_buttons()
@@ -55,4 +56,7 @@ def show_actors_net(min_weight=0, depth=2, buttons=False, ita=True):
     else:
         actors_net.show("other_actors_net_depth"+str(depth)+".html")
 
+show_actors_net(min_weight=2, depth=2, buttons=True, ita=True)
+show_actors_net(min_weight=2, depth=3, buttons=True, ita=True)
+show_actors_net(min_weight=2, depth=2, buttons=True, ita=False)
 show_actors_net(min_weight=2, depth=3, buttons=True, ita=False)
