@@ -37,7 +37,8 @@ def show_actors_net(min_weight=0, depth=2, buttons=False, ita=True):
 
     for node in actors_net.nodes:
         node["title"] += " Neighbors:\n" + "\n".join(neighbor_map[node["id"]])
-        # node["value"] = len(neighbor_map[node["id"]])
+        node["value"] = len(neighbor_map[node["id"]])
+        
     for edge in actors_net.edges:
         if (edge['value'] < min_weight):
             edge['hidden'] = True
