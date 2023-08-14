@@ -43,3 +43,6 @@ Dati_Cinema_Italiani/tables/*
 !Dati_Cinema_Italiani/tables/costo_biglietti.csv
 !Dati_Cinema_Italiani/tables/info_cinema.csv
 !Dati_Cinema_Italiani/tables/num_luoghi.csv
+
+# power bi - temp
+cinema_italiani_BI.pbix
