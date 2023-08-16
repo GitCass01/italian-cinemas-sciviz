@@ -1,6 +1,11 @@
 # italian-cinemas-sciviz
 Project created for the "Visualizzazione Scientifica" course in 2022-2023.
 
+# Presentation of my results
+- various _jupyter notebook_ and _.py_ files (if you want to see the code)
+- [powerpoint presentation (pdf)](presentazione_davide_carniselli.pdf)
+- [Power BI Report (pdf)](cinema_italiani_BI.pdf)
+
 # How I extracted the [data](#credit)
 - Most of the data that i found, was in **pdf** format, the "good" thing was that the data itself is in a tabular format, so i used a tool, [tabula](https://tabula.technology/), written in java to extract the data in **csv** format. 
 - I couldn't find a way to automate the process, although there is also a [python version](https://pypi.org/project/tabula-py/) of tabula, but, in this case was less effective than the original tool.
